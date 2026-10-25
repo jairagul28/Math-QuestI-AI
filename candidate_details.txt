@@ -1,0 +1,24 @@
+===================================================================
+                    MATHQUEST AI — CANDIDATE DETAILS
+                    TASK 1: FULL-STACK DEVELOPER ASSESSMENT
+===================================================================
+
+Full Name:                           [Your Full Name Here]
+Register Number:                     [Your Register Number Here]
+College Name and Department:         [Your College / University & Department]
+Year of Study / Expected Graduation: [e.g. 4th Year / May 2026]
+Mobile Number:                       [+1 (XXX) XXX-XXXX / +91 XXXXXXXXXX]
+Email Address:                       [student.candidate@example.edu]
+
+Task Chosen:                         Task 1: MathQuest AI (Grades 5 & 6)
+Project Stage:                       Completed Phases 1, 2, 3, 4, and 5
+
+Repository & Demo URLs:
+GitHub Repository URL:               [https://github.com/your-username/mathquest-ai (Optional)]
+Live Demo URL:                       [Local Development Complete — Hosted deployment blocked pending dedicated production MongoDB service]
+
+Resume PDF:
+Associated File:                     FullName_Resume.pdf (Please replace placeholder with your resume)
+
+===================================================================
+
