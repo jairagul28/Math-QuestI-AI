@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+  <defs>
+    <linearGradient id="logo-gradient" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0" stop-color="#9333ea"/>
+      <stop offset=".5" stop-color="#4f46e5"/>
+      <stop offset="1" stop-color="#2dd4bf"/>
+    </linearGradient>
+  </defs>
+  <rect x="4" y="4" width="40" height="40" rx="16" fill="url(#logo-gradient)"/>
+  <text x="24" y="34" fill="#fff" font-family="Fredoka, 'Arial Rounded MT Bold', sans-serif" font-size="25" font-weight="900" text-anchor="middle">π</text>
+  <path d="M39.1 1.8c.3 0 .5.2.6.5l.7 2.1 2.1.7c.3.1.5.3.5.6s-.2.5-.5.6l-2.1.7-.7 2.1c-.1.3-.3.5-.6.5s-.5-.2-.6-.5l-.7-2.1-2.1-.7c-.3-.1-.5-.3-.5-.6s.2-.5.5-.6l2.1-.7.7-2.1c.1-.3.3-.5.6-.5Z" fill="#fcd34d" stroke="#fcd34d" stroke-linejoin="round"/>
+  <path d="M33.8 8.2c.2 0 .3.1.4.3l.4 1.1 1.1.4c.2.1.3.2.3.4s-.1.3-.3.4l-1.1.4-.4 1.1c-.1.2-.2.3-.4.3s-.3-.1-.4-.3L33 11.2l-1.1-.4c-.2-.1-.3-.2-.3-.4s.1-.3.3-.4l1.1-.4.4-1.1c.1-.2.2-.3.4-.3Z" fill="#fcd34d"/>
+</svg>
