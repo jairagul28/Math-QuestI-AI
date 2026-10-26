@@ -18,51 +18,54 @@ import DailyChallengesPage from './pages/DailyChallengesPage';
 import RewardsPage from './pages/RewardsPage';
 import AvatarPickerPage from './pages/AvatarPickerPage';
 import LeaderboardPage from './pages/LeaderboardPage';
+import { ThemeProvider } from './contexts/ThemeContext';
 
 function App() {
   return (
-    <AuthProvider>
-      <>
-        <GamificationFeedback />
-        <Router>
-          <Routes>
-          {/* Public & Informational Routes wrapped in MainLayout */}
-          <Route element={<MainLayout />}>
-            <Route path="/" element={<LandingPage />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/register" element={<RegisterPage />} />
-            <Route path="/topics" element={<TopicsPage />} />
-            <Route path="/topics/:id" element={<TopicDetailPage />} />
-            <Route
-              path="/topics/:id/quiz"
-              element={
-                <ProtectedRoute>
-                  <QuizRunnerPage />
-                </ProtectedRoute>
-              }
-            />
-            <Route path="*" element={<NotFoundPage />} />
-          </Route>
+    <ThemeProvider>
+      <AuthProvider>
+        <>
+          <GamificationFeedback />
+          <Router>
+            <Routes>
+              {/* Public & Informational Routes wrapped in MainLayout */}
+              <Route element={<MainLayout />}>
+                <Route path="/" element={<LandingPage />} />
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/register" element={<RegisterPage />} />
+                <Route path="/topics" element={<TopicsPage />} />
+                <Route path="/topics/:id" element={<TopicDetailPage />} />
+                <Route
+                  path="/topics/:id/quiz"
+                  element={
+                    <ProtectedRoute>
+                      <QuizRunnerPage />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route path="*" element={<NotFoundPage />} />
+              </Route>
 
-          {/* Protected Student Dashboard Routes wrapped in DashboardLayout */}
-          <Route
-            path="/dashboard"
-            element={
-              <ProtectedRoute>
-                <DashboardLayout />
-              </ProtectedRoute>
-            }
-          >
-            <Route index element={<DashboardPage />} />
-            <Route path="challenges" element={<DailyChallengesPage />} />
-            <Route path="rewards" element={<RewardsPage />} />
-            <Route path="avatars" element={<AvatarPickerPage />} />
-            <Route path="leaderboard" element={<LeaderboardPage />} />
-          </Route>
-          </Routes>
-        </Router>
-      </>
-    </AuthProvider>
+              {/* Protected Student Dashboard Routes wrapped in DashboardLayout */}
+              <Route
+                path="/dashboard"
+                element={
+                  <ProtectedRoute>
+                    <DashboardLayout />
+                  </ProtectedRoute>
+                }
+              >
+                <Route index element={<DashboardPage />} />
+                <Route path="challenges" element={<DailyChallengesPage />} />
+                <Route path="rewards" element={<RewardsPage />} />
+                <Route path="avatars" element={<AvatarPickerPage />} />
+                <Route path="leaderboard" element={<LeaderboardPage />} />
+              </Route>
+            </Routes>
+          </Router>
+        </>
+      </AuthProvider>
+    </ThemeProvider>
   );
 }
 

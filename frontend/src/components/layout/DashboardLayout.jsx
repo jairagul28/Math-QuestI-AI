@@ -5,6 +5,7 @@ import Logo from '../common/Logo';
 import Badge from '../ui/Badge';
 import Button from '../ui/Button';
 import XPProgressChip from '../common/XPProgressChip';
+import ThemeToggle from '../common/ThemeToggle';
 import { AVATAR_EMOJI, ACCESSORY_EMOJI } from '../../utils/rewardCatalog';
 import { useAvatarRewards } from '../../hooks/useAvatarRewards';
 import {
@@ -78,6 +79,7 @@ export const DashboardLayout = () => {
       <div className="md:hidden flex items-center justify-between p-4 bg-white border-b border-slate-200 sticky top-0 z-30">
         <Logo size="sm" />
         <div className="flex items-center gap-2">
+          <ThemeToggle />
           <XPProgressChip
             totalXP={user?.totalXP || 0}
             compact
@@ -196,6 +198,7 @@ export const DashboardLayout = () => {
             </p>
           </div>
           <div className="flex items-center gap-3">
+            <ThemeToggle />
             <Badge variant="teal">Georgia Mathematics Standards</Badge>
             <XPProgressChip
               totalXP={user?.totalXP || 0}

@@ -5,6 +5,7 @@ import Logo from './Logo';
 import Button from '../ui/Button';
 import Badge from '../ui/Badge';
 import XPProgressChip from './XPProgressChip';
+import ThemeToggle from './ThemeToggle';
 import { useAvatarRewards } from '../../hooks/useAvatarRewards';
 import { Menu, X, LogOut, LayoutDashboard, Compass, Sparkles, BookOpen } from 'lucide-react';
 
@@ -72,6 +73,7 @@ export const Navbar = () => {
 
           {/* Desktop Actions */}
           <div className="hidden md:flex items-center gap-4">
+            <ThemeToggle />
             {isAuthenticated ? (
               <div className="flex items-center gap-3">
                 <XPProgressChip
@@ -123,6 +125,7 @@ export const Navbar = () => {
                 accessoryId={avatarRewards?.equippedAccessory}
               />
             )}
+            <ThemeToggle />
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="p-2 text-slate-700 hover:text-purple-600 hover:bg-purple-50 rounded-xl transition-colors"
