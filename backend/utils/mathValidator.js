@@ -209,6 +209,162 @@ const VERIFIED_FALLBACK_LESSONS = {
       'Look for diagonal cancellation before multiplying to save time simplifying.',
     ],
   },
+
+  // Grade 5: Classifying 2D Shapes (5.GSR.8)
+  'grade5-geometry-properties': {
+    title: 'Classifying 2D Shapes & Geometric Properties',
+    grade: 5,
+    topic: 'Geometry',
+    introduction: 'Polygons are closed, flat shapes made from straight line segments. We can sort them by counting sides and checking their angles and parallel sides.',
+    explanation: 'A quadrilateral has four sides. Some quadrilaterals have special properties: a parallelogram has two pairs of parallel sides, a rectangle has four right angles, and a square has four equal sides and four right angles. A square is also a rectangle and a parallelogram because it has those properties. Triangles can be classified by their sides or angles.',
+    keyConcepts: [
+      'A polygon is a closed two-dimensional shape with straight sides.',
+      'A rectangle has four right angles; a square is a rectangle with four equal sides.',
+      'Classify shapes using all their properties, not just how they look or are turned.',
+    ],
+    workedExamples: [
+      {
+        question: 'A quadrilateral has four right angles and opposite sides parallel. What special shape is it?',
+        steps: [
+          'Step 1: It has four sides, so it is a quadrilateral.',
+          'Step 2: Four right angles match the defining property of a rectangle.',
+          'Step 3: Opposite sides are parallel, so it is also a parallelogram.',
+        ],
+        answer: 'A rectangle (and a parallelogram)',
+      },
+      {
+        question: 'A square has side lengths of 4 cm. How many right angles does it have?',
+        steps: [
+          'Step 1: A square has four sides of equal length.',
+          'Step 2: Every square also has four right angles.',
+        ],
+        answer: '4 right angles',
+      },
+    ],
+    realWorldApplication: 'Builders inspect the parallel sides and right angles of floor tiles and window frames to check that the pieces fit together neatly.',
+    summary: 'Polygons are classified by their sides, angles, and parallel lines. A shape can belong to more than one group when it has all of their properties.',
+    practiceTips: [
+      'Count sides and look for right angles or parallel sides before naming a polygon.',
+      'Check whether a shape fits inside a larger shape family, such as a square also being a rectangle.',
+    ],
+  },
+
+  // Grade 5: Volume of Rectangular Prisms (5.GSR.7)
+  'grade5-volume-prisms': {
+    title: 'Volume of Rectangular Prisms',
+    grade: 5,
+    topic: 'Geometry',
+    introduction: 'Volume tells how much three-dimensional space a solid figure fills. We can measure a rectangular prism by counting the unit cubes that fit inside it.',
+    explanation: 'For a rectangular prism, volume equals length times width times height: V = l × w × h. The base layer contains length × width unit cubes, and the height tells how many equal layers there are. Volume is measured in cubic units, such as cm³.',
+    keyConcepts: [
+      'Volume measures space inside a three-dimensional object.',
+      'For a rectangular prism, V = length × width × height.',
+      'Use cubic units for volume; do not confuse volume with surface area.',
+    ],
+    workedExamples: [
+      {
+        question: 'Find the volume of a rectangular prism that is 4 cm long, 3 cm wide, and 2 cm high.',
+        steps: [
+          'Step 1: Find the base layer: 4 × 3 = 12 unit cubes.',
+          'Step 2: There are 2 equal layers, so multiply 12 × 2 = 24.',
+          'Step 3: Label the volume in cubic centimeters.',
+        ],
+        answer: '24 cm³',
+      },
+      {
+        question: 'A box has a base area of 15 square inches and is 3 inches high. What is its volume?',
+        steps: [
+          'Step 1: Use volume = base area × height.',
+          'Step 2: Multiply 15 × 3 = 45.',
+        ],
+        answer: '45 in³',
+      },
+    ],
+    realWorldApplication: 'A shipping company uses volume to estimate how much space a package takes up and whether it will fit inside a delivery truck.',
+    summary: 'Multiply the three side lengths of a rectangular prism to find its volume. The answer uses cubic units because it measures three-dimensional space.',
+    practiceTips: [
+      'Write the three dimensions and multiply them in any order.',
+      'Check that your answer is in cubic units, such as cm³ or in³.',
+    ],
+  },
+
+  // Grade 6: Multi-Digit Decimal Operations (6.NR.2)
+  'grade6-decimals-operations': {
+    title: 'Fluency with Multi-Digit Decimals',
+    grade: 6,
+    topic: 'Decimals',
+    introduction: 'Decimals let us work precisely with amounts between whole numbers. In Grade 6, we use all four operations with multi-digit decimals and check that our answers make sense.',
+    explanation: 'For addition and subtraction, line up decimal points. For multiplication, multiply as with whole numbers, then place the decimal so the product has the total number of decimal places in the factors. For division, move the decimal point the same number of places in both numbers to make the divisor a whole number.',
+    keyConcepts: [
+      'Align decimal points when adding or subtracting.',
+      'A product has as many decimal places as the two factors have altogether.',
+      'To divide by a decimal, shift both decimal points equally so the divisor becomes a whole number.',
+    ],
+    workedExamples: [
+      {
+        question: 'Multiply 2.4 × 1.5.',
+        steps: [
+          'Step 1: Multiply as whole numbers: 24 × 15 = 360.',
+          'Step 2: There are two decimal places in the factors altogether.',
+          'Step 3: Place the decimal two places from the right: 3.60.',
+        ],
+        answer: '3.6',
+      },
+      {
+        question: 'Divide 8.4 by 0.7.',
+        steps: [
+          'Step 1: Move both decimal points one place right: 8.4 ÷ 0.7 becomes 84 ÷ 7.',
+          'Step 2: Divide 84 by 7.',
+        ],
+        answer: '12',
+      },
+    ],
+    realWorldApplication: 'When shopping, you might multiply the price per kilogram by a decimal number of kilograms, then subtract the total from your budget.',
+    summary: 'Use place value carefully for every decimal operation. Estimate first and use inverse operations to check your result.',
+    practiceTips: [
+      'Estimate the answer before calculating to catch misplaced decimal points.',
+      'For division, move both decimal points the same number of places.',
+    ],
+  },
+
+  // Grade 6: Polygon Area and Surface Area (6.GSR.5)
+  'grade6-geometry-area-nets': {
+    title: 'Area of Polygons & Surface Area of 3D Nets',
+    grade: 6,
+    topic: 'Geometry',
+    introduction: 'Complex shapes can be split into familiar shapes to find their area. A net unfolds a three-dimensional object into flat faces that we can measure.',
+    explanation: 'The area of a triangle is A = 1/2 × base × height. A rectangle uses A = length × width. To find the area of a composite polygon, decompose it into shapes, find each area, and add them. Surface area is the total area of all outside faces; a net shows each face without overlap.',
+    keyConcepts: [
+      'Triangle area is one-half times its base times its perpendicular height.',
+      'Find a composite polygon area by adding the areas of non-overlapping parts.',
+      'Surface area is the sum of the areas of every face shown in a three-dimensional net.',
+    ],
+    workedExamples: [
+      {
+        question: 'A composite shape is made from a rectangle 8 cm by 5 cm and a triangle with base 6 cm and height 4 cm. Find its area.',
+        steps: [
+          'Step 1: Rectangle area = 8 × 5 = 40 cm².',
+          'Step 2: Triangle area = 1/2 × 6 × 4 = 12 cm².',
+          'Step 3: Add the non-overlapping areas: 40 + 12 = 52 cm².',
+        ],
+        answer: '52 cm²',
+      },
+      {
+        question: 'Find the surface area of a rectangular prism with side lengths 4 cm, 3 cm, and 2 cm.',
+        steps: [
+          'Step 1: The three pairs of face areas are 4 × 3 = 12, 4 × 2 = 8, and 3 × 2 = 6 cm².',
+          'Step 2: Add each pair: 2 × (12 + 8 + 6) = 52 cm².',
+        ],
+        answer: '52 cm²',
+      },
+    ],
+    realWorldApplication: 'An architect can use a net to calculate how much cardboard is needed to make a box, or use polygon areas to plan a floor.',
+    summary: 'Break polygons into familiar parts to find area. For surface area, add the area of every face in the solid’s net.',
+    practiceTips: [
+      'Draw and label each part of a composite shape before calculating.',
+      'Use square units for area and make sure the triangle height is perpendicular to its base.',
+    ],
+  },
 };
 
 /**
@@ -313,7 +469,7 @@ const VERIFIED_FALLBACK_QUESTIONS = {
   ],
 };
 
-function getFallbackLesson(topicSlug, fallbackMetadata = {}) {
+function getFallbackLesson(topicSlug) {
   const lesson = VERIFIED_FALLBACK_LESSONS[topicSlug];
   if (lesson) {
     return {
@@ -323,31 +479,7 @@ function getFallbackLesson(topicSlug, fallbackMetadata = {}) {
     };
   }
 
-  // Generic fallback if topic is outside standard set
-  return {
-    title: fallbackMetadata.title || 'Georgia Mathematics Standard Lesson',
-    grade: fallbackMetadata.grade || 5,
-    topic: fallbackMetadata.category || 'Mathematics',
-    introduction: `Welcome to this guided lesson exploring ${fallbackMetadata.title || 'essential mathematical concepts'}.`,
-    explanation: fallbackMetadata.description || 'Mastering this Georgia Mathematics standard will strengthen your problem-solving abilities.',
-    keyConcepts: [
-      'Understand core vocabulary and standard mathematical notation.',
-      'Apply structured, step-by-step reasoning to every problem.',
-      'Check answers using inverse operations and estimation.',
-    ],
-    workedExamples: [
-      {
-        question: 'Sample Practice Problem',
-        steps: ['Analyze the question terms', 'Apply standard arithmetic procedures', 'Verify the numerical solution'],
-        answer: 'Verified solution',
-      },
-    ],
-    realWorldApplication: 'These mathematical principles are applied in architecture, computer coding, navigation, and science.',
-    summary: 'Core principles of this standard provide the foundation for ongoing mathematical progression.',
-    practiceTips: ['Read problem statements twice', 'Show all work clearly step by step'],
-    isFallback: true,
-    verified: true,
-  };
+  return null;
 }
 
 function getFallbackQuestions(topicSlug, count = 5) {
@@ -404,4 +536,3 @@ module.exports = {
   getFallbackLesson,
   getFallbackQuestions,
 };
-

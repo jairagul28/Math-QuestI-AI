@@ -9,6 +9,16 @@ const workedExampleSchema = new mongoose.Schema(
   { _id: false }
 );
 
+const videoSlideSchema = new mongoose.Schema(
+  {
+    title: { type: String, required: true },
+    subtitle: { type: String, required: true },
+    content: [{ type: String, required: true }],
+    narration: { type: String, required: true },
+  },
+  { _id: false }
+);
+
 const lessonSchema = new mongoose.Schema(
   {
     topicId: {
@@ -59,6 +69,14 @@ const lessonSchema = new mongoose.Schema(
         type: String,
       },
     ],
+    videoSlides: {
+      type: [videoSlideSchema],
+      default: [],
+    },
+    contentVersion: {
+      type: Number,
+      default: 0,
+    },
     infographicUrl: {
       type: String,
       default: '',

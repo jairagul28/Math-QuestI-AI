@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { useParams, Link, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect, useRef } from 'react';
+import { useParams, Link } from 'react-router-dom';
 import { topicsAPI, aiAPI } from '../services/api';
 import { useAuth } from '../hooks/useAuth';
 import Card, { CardContent, CardHeader, CardTitle } from '../components/ui/Card';
@@ -32,7 +32,6 @@ import { notifyBadgeUnlocks } from '../utils/gamification';
 
 export const TopicDetailPage = () => {
   const { id } = useParams();
-  const navigate = useNavigate();
   const { user, refreshUser } = useAuth();
 
   const [topic, setTopic] = useState(null);
@@ -40,9 +39,12 @@ export const TopicDetailPage = () => {
   const [loadingTopic, setLoadingTopic] = useState(true);
   const [loadingLesson, setLoadingLesson] = useState(false);
   const [error, setError] = useState(null);
+  const [lessonError, setLessonError] = useState(null);
   const [lessonCompleted, setLessonCompleted] = useState(false);
   const [completingLesson, setCompletingLesson] = useState(false);
   const [completionSuccess, setCompletionSuccess] = useState(null);
+  const topicRequestRef = useRef(0);
+  const lessonRequestRef = useRef(0);
 
   // Video-style lesson modal state
   const [isVideoModalOpen, setIsVideoModalOpen] = useState(false);
@@ -53,56 +55,89 @@ export const TopicDetailPage = () => {
   // Expanded state for worked examples
   const [expandedExamples, setExpandedExamples] = useState({});
 
-  useEffect(() => {
-    const fetchTopicAndLesson = async () => {
-      try {
-        setLoadingTopic(true);
-        setError(null);
+  const loadLesson = async (topicData, forceRefresh = false) => {
+    if (!topicData) return;
+    const requestId = ++lessonRequestRef.current;
+    try {
+      setLoadingLesson(true);
+      setLesson(null);
+      setLessonError(null);
+      const res = await aiAPI.generateLesson({
+        grade: topicData.grade,
+        topicId: topicData._id,
+        topicTitle: topicData.title,
+        standardCode: topicData.standardCode,
+        standardDescription: topicData.standardDescription,
+        forceRefresh,
+      });
+      if (requestId !== lessonRequestRef.current) return;
+      const lessonData = res.data?.data;
+      const lessonTopicId = String(lessonData?.topicId?._id || lessonData?.topicId || '');
+      if (
+        !lessonData
+        || lessonData.grade !== topicData.grade
+        || lessonTopicId !== String(topicData._id)
+        || !Array.isArray(lessonData.videoSlides)
+        || lessonData.videoSlides.length !== 5
+      ) {
+        throw new Error('The lesson response did not match this topic.');
+      }
+      setLesson(lessonData);
+    } catch (err) {
+      if (requestId === lessonRequestRef.current) {
+        console.error('[TopicDetailPage] Could not load topic video lesson:', err);
+        setLessonError('unavailable');
+      }
+    } finally {
+      if (requestId === lessonRequestRef.current) {
+        setLoadingLesson(false);
+      }
+    }
+  };
 
-        // 1. Fetch Topic metadata
+  useEffect(() => {
+    const requestId = ++topicRequestRef.current;
+    lessonRequestRef.current += 1;
+    setTopic(null);
+    setLesson(null);
+    setError(null);
+    setLessonError(null);
+    setIsVideoModalOpen(false);
+    setLoadingTopic(true);
+    setLoadingLesson(false);
+
+    const fetchTopic = async () => {
+      try {
         const topicRes = await topicsAPI.getTopicById(id);
+        if (requestId !== topicRequestRef.current) return;
         const topicData = topicRes.data.data;
         setTopic(topicData);
-
-        // 2. Fetch or generate AI lesson
-        setLoadingLesson(true);
-        const lessonRes = await aiAPI.generateLesson({
-          grade: topicData.grade,
-          topicId: topicData._id,
-        });
-
-        if (lessonRes.data && lessonRes.data.data) {
-          setLesson(lessonRes.data.data);
-        }
-      } catch (err) {
-        console.error('[TopicDetailPage] Error:', err);
-        setError(err.response?.data?.message || 'Could not load topic or generate lesson.');
-      } finally {
         setLoadingTopic(false);
-        setLoadingLesson(false);
+        void loadLesson(topicData);
+      } catch (err) {
+        if (requestId === topicRequestRef.current) {
+          console.error('[TopicDetailPage] Could not load topic:', err);
+          setError(err.response?.data?.message || 'Could not load topic.');
+        }
+      } finally {
+        if (requestId === topicRequestRef.current) {
+          setLoadingTopic(false);
+        }
       }
     };
 
-    fetchTopicAndLesson();
+    fetchTopic();
+    return () => {
+      topicRequestRef.current += 1;
+      lessonRequestRef.current += 1;
+    };
   }, [id]);
+
+  const handleRetryLesson = () => loadLesson(topic);
 
   const handleRegenerateLesson = async () => {
     if (!topic) return;
-    try {
-      setLoadingLesson(true);
-      const res = await aiAPI.generateLesson({
-        grade: topic.grade,
-        topicId: topic._id,
-        forceRefresh: true,
-      });
-      if (res.data?.data) {
-        setLesson(res.data.data);
-      }
-    } catch (err) {
-      console.error('[Regenerate] Failed:', err);
-    } finally {
-      setLoadingLesson(false);
-    }
+    await loadLesson(topic, true);
   };
 
   const handleCompleteLesson = async () => {
@@ -523,13 +558,26 @@ export const TopicDetailPage = () => {
             </div>
           </div>
         </div>
+      ) : lessonError ? (
+        <div className="p-6 bg-amber-50 border border-amber-200 rounded-3xl text-center space-y-3">
+          <p className="text-sm font-semibold text-slate-700">
+            Video lesson for this topic is temporarily unavailable. Please try again.
+          </p>
+          <Button variant="playful" size="sm" onClick={handleRetryLesson}>
+            Retry
+          </Button>
+        </div>
       ) : null}
 
       {/* Video Lesson Modal */}
       <VideoLessonModal
-        isOpen={isVideoModalOpen}
+        key={id}
+        isOpen={isVideoModalOpen && (id === topic._id || id === topic.slug)}
         onClose={() => setIsVideoModalOpen(false)}
+        onRetry={handleRetryLesson}
         topic={topic}
+        lesson={lesson}
+        isLoading={loadingLesson}
       />
 
       {/* Infographic Zoom Lightbox */}

@@ -5,6 +5,11 @@ const Progress = require('../models/Progress');
 const groqService = require('../services/groqService');
 const { lessonGenerationSchema } = require('../utils/schemas');
 const { validateArithmetic, getFallbackLesson } = require('../utils/mathValidator');
+const {
+  VIDEO_LESSON_CONTENT_VERSION,
+  createVideoSlides,
+  hasValidVideoSlides,
+} = require('../services/videoLessonService');
 const { awardXP, checkAndUnlockAchievements } = require('../services/gamificationService');
 
 /**
@@ -14,7 +19,14 @@ const { awardXP, checkAndUnlockAchievements } = require('../services/gamificatio
  */
 exports.generateLesson = async (req, res, next) => {
   try {
-    const { grade, topicId, forceRefresh } = req.body;
+    const {
+      grade,
+      topicId,
+      topicTitle,
+      standardCode,
+      standardDescription,
+      forceRefresh,
+    } = req.body;
 
     if (!grade || !topicId) {
       return res.status(400).json({
@@ -55,10 +67,25 @@ exports.generateLesson = async (req, res, next) => {
       });
     }
 
+    if (
+      (topicTitle && topicTitle !== topic.title)
+      || (standardCode && standardCode !== topic.standardCode)
+      || (standardDescription && standardDescription !== topic.standardDescription)
+    ) {
+      return res.status(409).json({
+        success: false,
+        message: 'Topic curriculum metadata changed. Reload the topic and try again.',
+      });
+    }
+
     // 2. Check MongoDB cache first to reduce unnecessary Groq calls
     if (!forceRefresh) {
       const cachedLesson = await Lesson.findOne({ topicId: topic._id, grade: parsedGrade });
-      if (cachedLesson) {
+      if (
+        cachedLesson
+        && cachedLesson.contentVersion === VIDEO_LESSON_CONTENT_VERSION
+        && hasValidVideoSlides(cachedLesson.videoSlides)
+      ) {
         return res.status(200).json({
           success: true,
           cached: true,
@@ -174,6 +201,12 @@ DO NOT wrap in Markdown code blocks. Output ONLY raw parseable JSON.`;
     if (!lessonData) {
       console.log(`[AI Controller] Utilizing verified Georgia Standards fallback for '${topic.slug}'`);
       lessonData = getFallbackLesson(topic.slug, topic);
+      if (!lessonData) {
+        return res.status(503).json({
+          success: false,
+          message: 'Video lesson for this topic is temporarily unavailable. Please try again.',
+        });
+      }
       isFallback = true;
     }
 
@@ -181,6 +214,7 @@ DO NOT wrap in Markdown code blocks. Output ONLY raw parseable JSON.`;
     const infographicUrl = topic.category === 'Fractions' || topic.slug.includes('fraction')
       ? '/infographics/equivalent-fractions-infographic.png'
       : '';
+    const videoSlides = createVideoSlides(lessonData, topic);
 
     // 6. Save or update lesson in MongoDB
     const savedLesson = await Lesson.findOneAndUpdate(
@@ -197,6 +231,8 @@ DO NOT wrap in Markdown code blocks. Output ONLY raw parseable JSON.`;
         realWorldApplication: lessonData.realWorldApplication,
         summary: lessonData.summary,
         practiceTips: lessonData.practiceTips,
+        videoSlides,
+        contentVersion: VIDEO_LESSON_CONTENT_VERSION,
         infographicUrl: lessonData.infographicUrl || infographicUrl,
         isAIGenerated: !isFallback,
         isFallback,
